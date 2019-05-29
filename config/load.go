@@ -17,7 +17,7 @@ func init() {
 }
 
 func readConfig() {
-	viper.SetConfigName("config")
+	viper.SetConfigName("core")
 	viper.AddConfigPath(".")
 	viper.SetConfigType("yaml")
 	viper.ReadInConfig()

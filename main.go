@@ -43,6 +43,13 @@ func main() {
 		r101.POST("/create/:passphrase", handler.CreateAccount)
 		r101.POST("/bip39/create", handler.CreateBIP39)
 		r101.POST("/bip39/keystore/create", handler.CreateBIP39Keysore)
+
+		r101.POST("/bip39/address/priv", handler.GetAddressByPriv)
+	}
+
+	rsign := router.Group("/sign")
+	{
+		rsign.POST("/recover", handler.SignAndRecover)
 	}
 
 	for _, _port := range config.ServerConfig.Port {
