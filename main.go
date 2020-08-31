@@ -45,6 +45,8 @@ func main() {
 		r101.POST("/bip39/keystore/create", handler.CreateBIP39Keysore)
 
 		r101.POST("/bip39/address/priv", handler.GetAddressByPriv)
+
+		r101.POST("/bip39/priv", handler.GetPrivByKeystore)
 	}
 
 	rsign := router.Group("/sign")

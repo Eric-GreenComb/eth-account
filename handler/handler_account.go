@@ -9,13 +9,14 @@ import (
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/crypto/secp256k1"
+
 	// "github.com/ethereum/go-ethereum/rlp"
 	"github.com/gin-gonic/gin"
 
-	"github.com/Eric-GreenComb/eth-account/badger"
 	"github.com/Eric-GreenComb/eth-account/bean"
 	"github.com/Eric-GreenComb/eth-account/ethereum"
 	"github.com/Eric-GreenComb/go-bip39"
+	"github.com/Eric-GreenComb/x-server/badger"
 )
 
 // CreateAccount CreateAccount
@@ -119,6 +120,22 @@ func CreateBIP39Keysore(c *gin.Context) {
 
 // GetAddressByPriv GetAddressByPriv
 func GetAddressByPriv(c *gin.Context) {
+
+	var _param bean.FormParams
+	c.BindJSON(&_param)
+
+	_priv, err := crypto.HexToECDSA(_param.Value)
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{"errcode": 1, "msg": err.Error()})
+		return
+	}
+
+	_addr := crypto.PubkeyToAddress(_priv.PublicKey)
+	c.JSON(http.StatusOK, gin.H{"errcode": 0, "addr": strings.ToLower(_addr.Hex())})
+}
+
+// GetPrivByKeystore GetPrivByKeystore
+func GetPrivByKeystore(c *gin.Context) {
 
 	var _param bean.FormParams
 	c.BindJSON(&_param)
